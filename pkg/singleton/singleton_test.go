@@ -65,7 +65,21 @@ func TestGetIntoIncorrectType(t *testing.T) {
 	Store("test_getinto_singleton_incorrect_type", testSingleton)
 	var testSingleton2 int
 	err := GetInto("test_getinto_singleton_incorrect_type", &testSingleton2)
+	// type mismatch: cannot assign instance type *singleton.TestStruct to target type int
 	if err == nil {
 		t.Fatalf(`GetInto("test_getinto_singleton_incorrect_type", &testSingleton2) = %v, want error`, testSingleton)
 	}
+}
+func TestGetIntoInvalidType(t *testing.T) {
+	var testSingleton TestStruct
+	var testSingleton2 TestStruct // should not be possible to GetInto a non-pointer type
+	testSingleton = TestStruct{Name: "test"}
+	Store("test_getinto_singleton_invalid_type", &testSingleton)
+
+	err := GetInto("test_getinto_singleton_invalid_type", &testSingleton2)
+	// type mismatch: cannot assign instance type *singleton.TestStruct to target type singleton.TestStruct
+	if err == nil {
+		t.Fatalf(`GetInto("test_getinto_singleton_invalid_type", &testSingleton2) = %v, want error`, testSingleton)
+	}
+
 }
