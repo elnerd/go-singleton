@@ -1,7 +1,6 @@
 package singleton
 
 import (
-	"fmt"
 	"testing"
 )
 
@@ -52,11 +51,21 @@ func TestGetInto(t *testing.T) {
 	var testSingleton2 *TestStruct
 	err := GetInto("test_getinto_singleton", &testSingleton2)
 	testSingleton2.Name = "test-changed"
-	fmt.Println(testSingleton2.Name)
 	if err != nil {
 		t.Fatalf(`GetInto("test_getinto_singleton", &testSingleton2) = %v, want error`, testSingleton)
 	}
 	if testSingleton2.Name != "test-changed" {
 		t.Fatal(`testSingleton2.Name != "test"`)
+	}
+}
+
+func TestGetIntoIncorrectType(t *testing.T) {
+	var testSingleton *TestStruct
+	testSingleton = &TestStruct{Name: "test"}
+	Store("test_getinto_singleton_incorrect_type", testSingleton)
+	var testSingleton2 int
+	err := GetInto("test_getinto_singleton_incorrect_type", &testSingleton2)
+	if err == nil {
+		t.Fatalf(`GetInto("test_getinto_singleton_incorrect_type", &testSingleton2) = %v, want error`, testSingleton)
 	}
 }
