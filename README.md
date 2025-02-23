@@ -6,38 +6,33 @@ of a class, accessible globally.
 
 > **⚠ Warning:** In most cases, avoid using this package. Implement the pattern yourself if possible.
 
+Yes, the singleton is a design pattern and a design pattern is not meant to be replaced by a Go package.
+
 ## Why use this package?
 
-This Go package provides:
+So, why and when should you bother to use this package?
 
-- Type-safe instance retrieval.
-- Thread-safe singleton implementation.
-- Management of unique instances by assigned names.
+This package provides a simple way to manage singleton objects, identified by unique assigned names (e.g., `"database-client"` or `"app-config"`).
 
-These features enable easy retrieval of global instances to local variables of the correct type.
-See the Getter and Setter example below to see how this package is meant to be used. 
+**Use Cases**
+- Retrieve singleton instances anywhere in the application using a clean, type-safe interface.
+- Assign singleton instances to local variables of the correct type by their associated name.
+- Simplify the process of making any object a singleton.
 
 
+## Why should you NOT use the package?
 
-### Getter
+If you only need for your package return a singleton, then simply do so.
 
-```go
-package somepackage
+# How to use this package
 
-import (
-	"database/sql"
-	"github.com/elnerd/go-singleton/pkg/singleton"
-)
+You use the `singleton.Store(name string, instance interface{})` to assign a singleton instance by name and
+`singleton.GetInto(name string, into *interface{])` to load the instance into the variable *into.
 
-func YourFunction() {
-	var dbConn *db.Conn
-	if err := singleton.GetInto("database-client", &dbConn); err != nil {
-		// handle error
-	}
-}
-```
+See the example for storing and getting singleton instances below:
 
-### Setter
+
+## Store(name, instance)
 
 ```go
 package anotherpackage
@@ -57,13 +52,27 @@ func main() {
 }
 ```
 
-## Installation
+## GetInto(name, *instance)
 
-To include this module, use:
+This pattern show how you can retrieve the singleton by the assigned name "database-client".
+Here we assign the instance to the local variable dbConn.
 
-```sh
-go get github.com/elnerd/go-singleton
+```go
+package somepackage
+
+import (
+	sql "database/sql"
+	"github.com/elnerd/go-singleton/pkg/singleton"
+)
+
+func YourFunction() {
+	var dbConn *sql.DB
+	if err := singleton.GetInto("database-client", &dbConn); err != nil {
+		// handle error
+	}
+}
 ```
+
 
 ## API Reference
 
