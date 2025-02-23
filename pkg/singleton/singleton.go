@@ -7,7 +7,7 @@ import (
 )
 
 // Store saves an instance in a singleton container using a unique name as the key for future retrieval.
-func Store(name string, instance interface{}) {
+func Store[T any](name string, instance *T) {
 	var container = getContainerInstance()
 	container.store(name, instance)
 }
