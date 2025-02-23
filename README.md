@@ -81,13 +81,15 @@ func YourFunction() {
 ### `Store`
 
 ``` go
-func Store(name string, instance interface{})
+func Store[T Any](name string, instance *T)
 ```
 
 - **Description**: Saves an instance in the singleton container under a name.
 - **Parameters**:
   - `name` (string): Unique identifier.
-  - `instance` (interface{}): The instance to store.
+  - `instance` (*T): The instance to store.
+
+Note: The generic type T is used to provide error checking at compile time. You would always want a pointer.
 
 ### `Get`
 
