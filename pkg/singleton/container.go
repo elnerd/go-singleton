@@ -48,7 +48,7 @@ func (s *container) get(name string) (interface{}, error) {
 
 	instance, ok := s.instances[name]
 	if !ok {
-		return nil, fmt.Errorf("no singleton instance named '%s'", name)
+		return nil, fmt.Errorf("no singleton instance named %q", name)
 	}
 	return instance, nil
 }
