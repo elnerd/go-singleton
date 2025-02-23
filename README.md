@@ -14,9 +14,10 @@ This Go package provides:
 - Thread-safe singleton implementation.
 - Management of unique instances by assigned names.
 
-These features enable easy retrieval of global instances and their assignment to correctly-typed variables.
+These features enable easy retrieval of global instances to local variables of the correct type.
+See the Getter and Setter example below to see how this package is meant to be used. 
 
-This reduces tight coupling in your app by avoiding the need to pass instances as function arguments.
+
 
 ### Getter
 
