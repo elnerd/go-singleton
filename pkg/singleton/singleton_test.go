@@ -1,6 +1,7 @@
 package singleton
 
 import (
+	"errors"
 	"testing"
 )
 
@@ -18,10 +19,9 @@ func TestCreateSingleton(t *testing.T) {
 
 func TestGetNonExistingSingleton(t *testing.T) {
 	instance, err := Get("test_getNonExistingSingleton")
-	if err == nil {
+	if !errors.Is(err, ErrSingletonNotFound) {
 		t.Fatalf(`Get("test_getNonExistingSingleton") = %v, want error`, instance)
 	}
-	_ = instance // ignore value
 }
 
 func TestCreateGetSingleton(t *testing.T) {
@@ -33,7 +33,7 @@ func TestCreateGetSingleton(t *testing.T) {
 	// Get
 	instance, err := Get("testSingleton")
 	if err != nil {
-		t.Fatalf(`Get("testSingleton") = %v, want error`, testSingleton)
+		t.Fatalf(`Get("testSingleton") = %v`, testSingleton)
 	}
 	testSingleton, ok := instance.(*TestStruct)
 	if !ok {
@@ -52,7 +52,7 @@ func TestGetInto(t *testing.T) {
 	err := GetInto("test_getinto_singleton", &testSingleton2)
 	testSingleton2.Name = "test-changed"
 	if err != nil {
-		t.Fatalf(`GetInto("test_getinto_singleton", &testSingleton2) = %v, want error`, testSingleton)
+		t.Fatalf(`GetInto("test_getinto_singleton", &testSingleton2) = %v`, testSingleton)
 	}
 	if testSingleton2.Name != "test-changed" {
 		t.Fatal(`testSingleton2.Name != "test"`)
@@ -66,7 +66,7 @@ func TestGetIntoIncorrectType(t *testing.T) {
 	var testSingleton2 int
 	err := GetInto("test_getinto_singleton_incorrect_type", &testSingleton2)
 	// type mismatch: cannot assign instance type *singleton.TestStruct to target type int
-	if err == nil {
+	if !errors.Is(err, ErrInvalidType) {
 		t.Fatalf(`GetInto("test_getinto_singleton_incorrect_type", &testSingleton2) = %v, want error`, testSingleton)
 	}
 }
@@ -78,8 +78,23 @@ func TestGetIntoInvalidType(t *testing.T) {
 
 	err := GetInto("test_getinto_singleton_invalid_type", &testSingleton2)
 	// type mismatch: cannot assign instance type *singleton.TestStruct to target type singleton.TestStruct
-	if err == nil {
+	if !errors.Is(err, ErrInvalidType) {
 		t.Fatalf(`GetInto("test_getinto_singleton_invalid_type", &testSingleton2) = %v, want error`, testSingleton)
 	}
+}
 
+func TestDelete(t *testing.T) {
+	var testSingleton *TestStruct
+	testSingleton = &TestStruct{Name: "test"}
+	Store("testSingleton", testSingleton)
+	Delete("testSingleton")
+	instance, err := Get("testSingleton")
+	if !errors.Is(err, ErrSingletonNotFound) {
+		t.Fatalf(`Get("testSingleton") = %v, want error`, instance)
+	}
+}
+
+func TestDeleteNonExistingSingleton(t *testing.T) {
+	// Should never fail
+	Delete("testSingleton")
 }
