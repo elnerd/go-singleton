@@ -11,13 +11,12 @@ var appConfig *models.AppConfig
 
 func Start() {
 	fmt.Println("Starting server")
+	fmt.Println("Retrieving appConfig from singleton...")
 	if err := singleton.GetInto("global-config", &appConfig); err != nil {
 		panic(err)
 	}
+	fmt.Printf("Retrieved appConfig from singleton. APIKey is: %s\n", appConfig.APIKey)
 
-	for {
-		fmt.Println("Server is running")
-		fmt.Println(appConfig)
-		time.Sleep(1000 * time.Millisecond)
-	}
+	time.Sleep(5000 * time.Millisecond)
+	fmt.Println("Stopping server")
 }
