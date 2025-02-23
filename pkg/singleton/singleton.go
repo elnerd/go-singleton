@@ -39,8 +39,8 @@ func Delete(name string) {
 func GetInto(name string, into interface{}) error {
 	instance, err := Get(name)
 	if err != nil {
-		contextErr := fmt.Errorf("could not get singleton: %w", err)
-		return errors.Join(contextErr, ErrSingletonNotFound)
+		// error from Get(name) already has correct error sentinel
+		return err
 	}
 
 	intoVal := reflect.ValueOf(into)
