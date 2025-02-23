@@ -100,11 +100,6 @@ func Delete(name string)
 The singleton module can be used for:
 1. **Global Configuration**: Managing shared configurations across the application.
 2. **Service Instances**: Accessing and sharing network clients, services, or database connections globally.
-3. **Caching**: Implementing a caching mechanism with one instance for managing stored objects.
-
-## Error Handling
-- **Instance Not Found**: When trying to retrieve or delete a name that doesn't exist, appropriate errors are returned.
-- **Invalid Type Assignment**: The `GetInto` function ensures that the type of the retrieved instance matches the type of the provided pointer.
 
 ## Thread Safety
 Internally, the module ensures thread-safe operations for storing, retrieving, and deleting instances, preventing race conditions in concurrent environments.
