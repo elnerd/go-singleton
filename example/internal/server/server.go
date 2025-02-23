@@ -18,6 +18,6 @@ func Start() {
 	for {
 		fmt.Println("Server is running")
 		fmt.Println(appConfig)
-		time.Sleep(1000)
+		time.Sleep(1000 * time.Millisecond)
 	}
 }
