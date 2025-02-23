@@ -19,6 +19,8 @@ This package provides a simple way to manage singleton objects, identified by un
 - Assign singleton instances to local variables of the correct type by their associated name.
 - Simplify the process of making any object a singleton.
 
+Using this package is made to be thread safe, but this provide no guarantees that the instance you making a singleton is thread safe!
+
 
 ## Why should you NOT use the package?
 
