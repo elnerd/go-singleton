@@ -15,7 +15,7 @@ func Start() {
 	if err := singleton.GetInto("global-config", &appConfig); err != nil {
 		panic(err)
 	}
-	fmt.Printf("Retrieved appConfig from singleton. APIKey is: %s\n", appConfig.APIKey)
+	fmt.Println("Retrieved appConfig from singleton. APIKey is successfully retrieved.")
 
 	time.Sleep(5000 * time.Millisecond)
 	fmt.Println("Stopping server")
