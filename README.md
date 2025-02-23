@@ -16,6 +16,9 @@ go get github.com/elnerd/go-singleton
 ### 1. **Storing an instance**
 You can store an instance in the singleton container by providing a unique name:
 ``` go
+
+import "github.com/elnerd/go-singleton/pkg/singleton"
+
 type MyService struct {
     Name string
 }
@@ -23,19 +26,8 @@ type MyService struct {
 service := &MyService{Name: "ExampleService"}
 singleton.Store("myService", service)
 ```
-### 2. **Retrieving an instance**
-To retrieve the stored instance, use the `singleton.Get` function:
-``` go
-instance, err := singleton.Get("myService")
-if err != nil {
-    log.Fatalf("Error retrieving instance: %v", err)
-}
-service, ok := instance.(*MyService)
-if !ok {
-    log.Fatalf("Instance type mismatch")
-}
-```
-### 3. **Type-Safe Retrieval using `GetInto`**
+
+### 2. **Type-Safe Retrieval using `GetInto`**
 To simplify type retrieval and validation, use `GetInto`:
 ``` go
 var retrievedService *MyService
@@ -43,6 +35,22 @@ if err := singleton.GetInto("myService", &retrievedService); err != nil {
     log.Fatalf("Error retrieving and assigning instance: %v", err)
 }
 fmt.Println("Retrieved service name:", retrievedService.Name)
+```
+### 3. **Retrieving an instance using `Get`**
+To retrieve the stored instance, use the `singleton.Get` function:
+``` go
+import "github.com/elnerd/go-singleton/pkg/singleton"
+
+func demo() {
+  instance, err := singleton.Get("myService")
+  if err != nil {
+      log.Fatalf("Error retrieving instance: %v", err)
+  }
+  service, ok := instance.(*MyService)
+  if !ok {
+      log.Fatalf("Instance type mismatch")
+  }
+}
 ```
 ### 4. **Deleting an instance**
 To remove an instance from the container:
@@ -68,11 +76,7 @@ func Get(name string) (interface{}, error)
     - `interface{}`: The retrieved instance.
     - `error`: An error if the instance is not found.
 
-### `Delete`
-``` go
-func Delete(name string)
-```
-- **Description**: Removes the instance associated with the provided `name` from the container.
+NB. The recommended way to retrieve an instance is using the GetInto function. See function below.
 
 ### `GetInto`
 ``` go
@@ -86,7 +90,13 @@ func GetInto(name string, into interface{}) error
 - **Returns**:
     - `error`: An error if the instance cannot be retrieved, `into` is not a pointer, or there is a type mismatch.
 
-## Example Use Case
+### `Delete`
+``` go
+func Delete(name string)
+```
+- **Description**: Removes the instance associated with the provided `name` from the container.
+
+## Example Use Cases
 The singleton module can be used for:
 1. **Global Configuration**: Managing shared configurations across the application.
 2. **Service Instances**: Accessing and sharing network clients, services, or database connections globally.
@@ -98,3 +108,4 @@ The singleton module can be used for:
 
 ## Thread Safety
 Internally, the module ensures thread-safe operations for storing, retrieving, and deleting instances, preventing race conditions in concurrent environments.
+
