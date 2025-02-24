@@ -55,7 +55,7 @@ func TestGetInto(t *testing.T) {
 		t.Fatalf(`GetInto("test_getinto_singleton", &testSingleton2) = %v`, testSingleton)
 	}
 	if testSingleton2.Name != "test-changed" {
-		t.Fatal(`testSingleton2.Name != "test"`)
+		t.Fatal(`testSingleton2.Name != "test-changed"`)
 	}
 }
 
@@ -86,15 +86,41 @@ func TestGetIntoInvalidType(t *testing.T) {
 func TestDelete(t *testing.T) {
 	var testSingleton *TestStruct
 	testSingleton = &TestStruct{Name: "test"}
-	Store("testSingleton", testSingleton)
-	Delete("testSingleton")
-	instance, err := Get("testSingleton")
+	Store("testDeleteSingleton", testSingleton)
+	Delete("testDeleteSingleton")
+	instance, err := Get("testDeleteSingleton")
 	if !errors.Is(err, ErrSingletonNotFound) {
-		t.Fatalf(`Get("testSingleton") = %v, want error`, instance)
+		t.Fatalf(`Get("testDeleteSingleton") = %v, want error`, instance)
 	}
 }
 
 func TestDeleteNonExistingSingleton(t *testing.T) {
 	// Should never fail
 	Delete("testSingleton")
+}
+
+func TestGetIntoWithErr(t *testing.T) {
+	var testSingleton *TestStruct
+	err := GetInto("testGetIntoNotExisting", &testSingleton)
+	if !errors.Is(err, ErrSingletonNotFound) {
+		t.Fatalf(`GetInto("testGetIntoNotExisting", &testSingleton2) = %v, want error`, testSingleton)
+	}
+}
+
+func TestGetIntoWithNilTarget(t *testing.T) {
+	var testSingleton TestStruct
+	Store("testGetIntoWithNilTarget", &testSingleton)
+	err := GetInto("testGetIntoWithNilTarget", nil)
+	if !errors.Is(err, ErrInvalidType) {
+		t.Fatalf(`GetInto("testGetIntoWithNilTarget", nil) = %v, want error`, testSingleton)
+	}
+}
+
+func TestGetIntoWithNonPointerStruct(t *testing.T) {
+	var testSingleton TestStruct
+	Store("testGetIntoWithNonPointerStruct", &testSingleton)
+	err := GetInto("testGetIntoWithNonPointerStruct", &testSingleton)
+	if !errors.Is(err, ErrInvalidType) {
+		t.Fatalf(`GetInto("testGetIntoWithNonPointerStruct", nil) = %v, want error`, testSingleton)
+	}
 }
