@@ -2,8 +2,8 @@ package server
 
 import (
 	"fmt"
+	"github.com/elnerd/go-singleton"
 	"github.com/elnerd/go-singleton/example/internal/models"
-	"github.com/elnerd/go-singleton/pkg/singleton"
 	"time"
 )
 
