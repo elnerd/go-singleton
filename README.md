@@ -39,7 +39,7 @@ package anotherpackage
 
 import (
 	"database/sql"
-	"github.com/elnerd/go-singleton/pkg/singleton"
+	"github.com/elnerd/go-singleton"
 )
 
 func main() {
@@ -62,7 +62,7 @@ package somepackage
 
 import (
 	sql "database/sql"
-	"github.com/elnerd/go-singleton/pkg/singleton"
+	"github.com/elnerd/go-singleton"
 )
 
 func YourFunction() {
