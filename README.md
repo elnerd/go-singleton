@@ -1,16 +1,14 @@
 # Singleton Go Package
 
 **Singleton** is a design pattern that ensures a class has a single instance with global access. Learn more about
-it [here](https://refactoring.guru/design-patterns/singleton). This pattern ensures the application has **one** instance
-of a class, accessible globally.
+it [here](https://refactoring.guru/design-patterns/singleton). 
 
 > **⚠ Warning:** In most cases, avoid using this package. Implement the pattern yourself if possible.
-
-Yes, the singleton is a design pattern and a design pattern is not meant to be replaced by a Go package.
+> The singleton is a design pattern and a design pattern is not meant to be replaced by a Go package.
 
 ## Why use this package?
 
-So, why and when should you bother to use this package?
+So, why and when should you consider using this package?
 
 This package provides a simple way to manage singleton objects, identified by unique assigned names (e.g., `"database-client"` or `"app-config"`).
 
@@ -41,7 +39,7 @@ package anotherpackage
 
 import (
 	"database/sql"
-	"github.com/elnerd/go-singleton/pkg/singleton"
+	"github.com/elnerd/go-singleton"
 )
 
 func main() {
@@ -64,7 +62,7 @@ package somepackage
 
 import (
 	sql "database/sql"
-	"github.com/elnerd/go-singleton/pkg/singleton"
+	"github.com/elnerd/go-singleton"
 )
 
 func YourFunction() {

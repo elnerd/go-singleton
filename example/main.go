@@ -1,9 +1,9 @@
 package main
 
 import (
+	"github.com/elnerd/go-singleton"
 	"github.com/elnerd/go-singleton/example/internal/models"
 	"github.com/elnerd/go-singleton/example/internal/server"
-	"github.com/elnerd/go-singleton/pkg/singleton"
 	"time"
 )
 
